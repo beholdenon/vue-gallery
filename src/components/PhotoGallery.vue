@@ -9,29 +9,17 @@ const error = ref(null);
 
 const { data: galleryAllData } = inject('gallery');
 
-const getGalleryData = () => {
-  let activeGallery;
-  galleryAllData.value.forEach(gallery => {
-    if(gallery.fields.slug === route.params.slug) {
-      activeGallery = gallery;
-    }
-  })
-  return activeGallery;
-}
 
 //data.value = getEntry(getGalleryId());
 const filterKey = ref([]);
 
 function fetchData() {
-  data.value = getGalleryData();
+  data.value = galleryAllData.value.find(({fields}) => {
+    return fields.slug === route.params.slug;
+  });
 }
 
-watch(
-  () => route.params.slug,
-  async () => {
-    fetchData();
-  }
-)
+watch(() => route.params.slug, fetchData)
 
 watch( data, () => {
     document.title = data.value.fields.navTitle + ' - Whitney Alexandra';
