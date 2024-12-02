@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { inject, ref} from 'vue';
-import { useRouter, useRoute, RouterLink, RouterView, beforeEach } from 'vue-router';
-
-const { data: galleryAllData, data: galleryData, error: galleryError } = inject('gallery');
+import { ref} from 'vue';
+import { useRouter, RouterView } from 'vue-router';
 
 const router = useRouter()
 const sidebar = ref(false);

@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue';
+import { inject } from 'vue';
+import router from '../router'
+import PhotoSlideshow from '../components/PhotoSlideshow.vue';
+import { getEntry } from '../composables/getEntry.js';
+const { data , error } = getEntry('48eVyUhkv74oHnUGladtsm');
+const { data: galleryAllData } = inject('gallery');
 
 import imgUrl from '../assets/white-logo.png';
-import router from '../router'
-import Slideshow from '../components/Slideshow.vue';
-import { getEntry } from '../composables/getEntry.js';
-let { data , error } = getEntry('48eVyUhkv74oHnUGladtsm');
-
-const { data: galleryAllData, data: galleryData, error: galleryError } = inject('gallery');
 
 const goToWork = () => {
   router.push({ path: '/work/' + galleryAllData.value[0].fields.slug }) 
@@ -25,7 +24,7 @@ const goToWork = () => {
         </button>
       </div>
       <div class="overlay"></div>
-      <Slideshow :data="data.fields.photos" @click="goToWork" />
+      <PhotoSlideshow :data="data.fields.photos" @click="goToWork" />
     </div>
     <div v-else>Loading...</div>
   </main>

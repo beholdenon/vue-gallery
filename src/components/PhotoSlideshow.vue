@@ -1,23 +1,35 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import SlideshowItem from '../components/SlideshowItem.vue';
+import { ref, onMounted, defineProps } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
+import PhotoSlideshowItem from '../components/PhotoSlideshowItem.vue';
 
 defineProps({
   data: Object
 })
 
-let activePhoto = ref(null);
-let photos = ref(null);
-let totalPhotos = ref(null);
+const activePhoto = ref(null);
+const photos = ref(null);
+const totalPhotos = ref(null);
+let slideshowInt;
 
 const startSlideshow = () => {
   photos.value = document.querySelectorAll('.slideshowItem');
   totalPhotos.value = photos.value.length;
-  setPhoto(0);
+  
+  if(!activePhoto.value) {
+    setPhoto(0);
+  }
+  else {
+    nextPhoto();
+  }
 
-  let slideshowInt = setInterval(() => {
+  slideshowInt = setInterval(() => {
     nextPhoto();
   }, 5000);
+}
+
+const stopSlideShow = () => {
+  clearInterval(slideshowInt);
 }
 
 const nextPhoto = () => {
@@ -41,11 +53,15 @@ onMounted(() => {
   startSlideshow();
 })
 
+onBeforeRouteLeave(() => {
+  stopSlideShow();
+})
+
 </script>
 
 <template>
 <TransitionGroup name="slide-fade" tag="ul">
-    <SlideshowItem v-for="(image, index) in data" :key="image" :imageSrc="image.fields.file.url" v-show="checkImage(index)" />
+    <PhotoSlideshowItem v-for="(image, index) in data" :key="image" :imageSrc="image.fields.file.url" v-show="checkImage(index)" />
     </TransitionGroup>
 </template>
 

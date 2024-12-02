@@ -1,9 +1,7 @@
-import { inject } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import WorkView from '../views/WorkView.vue'
 import AboutView from '../views/AboutView.vue'
-import ProjectView from '../views/ProjectView.vue'
 import NavView from '../views/NavView.vue'
 
 const router = createRouter({

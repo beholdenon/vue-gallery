@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, inject, defineProps, watch, onMounted, onUpdated } from 'vue'
-import { useRoute, useRouter, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
-import GalleryItem from '../components/GalleryItem.vue';
+import { ref, computed, inject, watch, onMounted, onUpdated } from 'vue'
+import { useRoute } from 'vue-router'
+import PhotoGalleryItem from '../components/PhotoGalleryItem.vue';
 
 const route = useRoute();
 const data = ref(null);
 const error = ref(null);
 
-const { data: galleryAllData, data: galleryData, error: galleryError } = inject('gallery');
+const { data: galleryAllData } = inject('gallery');
 
 const getGalleryData = () => {
   let activeGallery;
@@ -20,23 +20,23 @@ const getGalleryData = () => {
 }
 
 //data.value = getEntry(getGalleryId());
-let filterKey = ref([]);
+const filterKey = ref([]);
 
 function fetchData() {
-  let gallery = getGalleryData();
+  const gallery = getGalleryData();
   data.value = gallery;  
 }
 
 watch(
   () => route.params.slug,
-  async newId => {
+  async () => {
     fetchData();
   }
 )
 
 
 const triggerAnimation = () => {
-  var items = document.querySelectorAll('.gallery li');
+  const items = document.querySelectorAll('.gallery li');
   items.forEach((item, index) => {
     item.classList.remove('show');
     item.style.setProperty('animation-delay', (index *.06) +'s');
@@ -72,7 +72,7 @@ const filteredData = computed(() => {
 
 const filterGrid = (tag) => {
   if(filterKey.value.includes(tag)) {
-    let index = filterKey.value.indexOf(tag);
+    const index = filterKey.value.indexOf(tag);
     filterKey.value.splice(index, 1);
   }
   else {
@@ -81,7 +81,7 @@ const filterGrid = (tag) => {
 }
 
 const getClass = (tag) => {
-  let classes = ['filterBtn'];
+  const classes = ['filterBtn'];
   if(filterKey.value.includes(tag)) {
    classes.push('active');
   }
@@ -96,12 +96,6 @@ onUpdated(() => {
   triggerAnimation();
 });
 
-onBeforeRouteUpdate((to, from) => {
-
-});
-
-onBeforeRouteLeave((to, from) => {
-});
 fetchData();
 
 
@@ -111,8 +105,8 @@ fetchData();
   <div v-else-if="data">
     <button v-show="false" v-for="(tag, index) in uniqueTags" :key="index" @click="filterGrid(tag)" :class="getClass(tag)" >{{tag}}</button>
     <ul class="gallery">
-      <GalleryItem 
-        v-for="(item, index) in data.fields.items"
+      <PhotoGalleryItem 
+        v-for="(item, index) in filteredData"
         :item="item"
         :index="index"
         :key="item.sys.id"

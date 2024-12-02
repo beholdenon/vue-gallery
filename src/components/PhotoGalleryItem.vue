@@ -1,14 +1,10 @@
-<script setup>
-import { ref } from 'vue'
-import router from '../router'
-import { marked } from 'marked'
+<script setup lang="ts">
+import { marked } from 'marked';
 
 defineProps({
   item: Object,
-  index: Number,
-  key: Number
+  index: Number
 })
-
 
 const mouseOver = (event) => {
   event.currentTarget.classList.add('active');
@@ -18,29 +14,29 @@ const mouseOut = (event) => {
   event.currentTarget.classList.remove('active');
 }
 
-const gridClick = (index) => {
-   //router.push({ path: `/work/${index}` }) 
-}
-
 const processMarkdown = (text) => {
   return marked(text);
 }
 </script>
 
 <template>
-  <li :key="index" @click="gridClick(index)" @mouseover="mouseOver" @mouseout="mouseOut" class="gallery-item">
+  <li :key="index" @mouseover="mouseOver" @mouseout="mouseOut" class="gallery-item">
     <div class="gallery-item-top">
-
-    <div class="gallery-image-bg" :style="{'--bkgImage': 'url(' + item.fields.photo.fields.file.url + ')'}"></div>
-    <img :src="item.fields.photo.fields.file.url" :alt="item.fields.photo.fields.description" class="gallery-item-photo" /></div>
-    <div class="gallery-item-bottom">
+      <div class="gallery-image-bg" 
+        :style="{'--bkgImage': 'url(' + item.fields.photo.fields.file.url + ')'}">
+      </div>
+      <img :src="item.fields.photo.fields.file.url" :alt="item.fields.photo.fields.description" class="gallery-item-photo" />
+    </div>
+      <div class="gallery-item-bottom">
       <h3 v-if="item.fields.client" v-html="item.fields.client"></h3>
       <h2>{{item.fields.title}}</h2>
-      <p v-if="item.fields.description" v-html="processMarkdown(item.fields.description)"></p>
+      <p v-if="item.fields.description" 
+        v-html="processMarkdown(item.fields.description)">
+      </p>
       <ul class="tags-list" v-if="item.fields.tags">
-      <li v-for="(tag, index) in item.fields.tags">
-        {{tag}}
-      </li>
+        <li v-for="(tag, index) in item.fields.tags" :key="index">
+          {{tag}}
+        </li>
       </ul>
     </div>
   </li>
