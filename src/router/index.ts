@@ -15,7 +15,7 @@ const router = createRouter({
         default: HomeView,
         LeftSidebar: NavView
       },
-      meta: { title: 'Home' }
+      meta: { title: 'Whitney Alexandra' }
     },
     {
       path: '/about',
@@ -24,7 +24,7 @@ const router = createRouter({
         default: AboutView,
         LeftSidebar: NavView
       },
-      meta: { title: 'About' }
+      meta: { title: 'About - Whitney Alexandra' }
     },
     {
       path: '/work/:slug',
@@ -33,7 +33,7 @@ const router = createRouter({
         default: WorkView,
         LeftSidebar: NavView
       },
-      meta: { title: 'Work' }
+      meta: { title: 'Work - Whitney Alexandra' }
 
     },
   ],

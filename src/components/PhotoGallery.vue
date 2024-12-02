@@ -23,8 +23,7 @@ const getGalleryData = () => {
 const filterKey = ref([]);
 
 function fetchData() {
-  const gallery = getGalleryData();
-  data.value = gallery;  
+  data.value = getGalleryData();
 }
 
 watch(
@@ -34,6 +33,10 @@ watch(
   }
 )
 
+watch( data, () => {
+    document.title = data.value.fields.navTitle + ' - Whitney Alexandra';
+  }
+)
 
 const triggerAnimation = () => {
   const items = document.querySelectorAll('.gallery li');
@@ -45,7 +48,6 @@ const triggerAnimation = () => {
     }, 250);
   })
 }
-
 
 const uniqueTags = computed(() => {
   let uData = [];
@@ -89,14 +91,13 @@ const getClass = (tag) => {
 }
 
 onMounted(() => {
+  fetchData();
   triggerAnimation();
 });
 
 onUpdated(() => {
   triggerAnimation();
 });
-
-fetchData();
 
 
 </script>

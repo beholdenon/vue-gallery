@@ -39,11 +39,11 @@ nav {
 }
 
 nav a {
-  font-size: 22px;
+  font-size: 1.2em;
   color: #000;
   text-decoration: none;
   font-weight: bold;
-  padding: 5px 0;
+  padding: 3px 0;
   text-transform: uppercase;
 }
 
