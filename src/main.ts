@@ -10,7 +10,7 @@ import router from './router'
 const app = createApp(App);
 const convertedData = [];
 convertedData.push(data.value);
-app.provide('gallery', { data, data, error, convertedData})
+app.provide('gallery', { data, error, convertedData})
 
 app.use(router);
 app.mount('#app');

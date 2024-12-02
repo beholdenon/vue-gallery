@@ -96,6 +96,11 @@ main {
     transform: translateX(-100vw);
   }
 
+  body.nav-close .left-sidebar {
+    transition: transform 1s cubic-bezier(0.83, 0, 0.17, 1);
+    transform: translateX(-100vw);
+  }
+
   body.nav-active .left-sidebar {
     transition: transform 1s cubic-bezier(0.83, 0, 0.17, 1);
     transform: translateX(0);

@@ -2,13 +2,10 @@
 import { inject } from 'vue';
 import { RouterLink } from 'vue-router';
 const { data: galleryAllData } = inject('gallery');
+import { closeNav } from '../composables/navControls.js'
 
 import IconClose from '../components/icons/IconClose.vue';
 import logoImage from '../assets/logo.jpg';
-
-const closeNav = () => {
-  document.body.classList.remove("nav-active");
-}
 </script>
 
 <template>
