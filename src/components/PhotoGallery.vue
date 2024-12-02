@@ -1,100 +1,103 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed, inject, watch, onMounted, onUpdated } from 'vue'
 import { useRoute } from 'vue-router'
-import PhotoGalleryItem from '../components/PhotoGalleryItem.vue';
+import PhotoGalleryItem from '../components/PhotoGalleryItem.vue'
 
-const route = useRoute();
-const data = ref(null);
-const error = ref(null);
+const route = useRoute()
+const data = ref(null)
+const error = ref(null)
 
-const { data: galleryAllData } = inject('gallery');
-
+const { data: galleryAllData } = inject('gallery')
 
 //data.value = getEntry(getGalleryId());
-const filterKey = ref([]);
+const filterKey = ref([])
 
 function fetchData() {
-  data.value = galleryAllData.value.find(({fields}) => {
-    return fields.slug === route.params.slug;
-  });
+  data.value = galleryAllData.value.find(({ fields }) => {
+    return fields.slug === route.params.slug
+  })
 }
 
 watch(() => route.params.slug, fetchData)
 
-watch( data, () => {
-    document.title = data.value.fields.navTitle + ' - Whitney Alexandra';
-  }
-)
+watch(data, () => {
+  document.title = data.value.fields.navTitle + ' - Whitney Alexandra'
+})
 
 const triggerAnimation = () => {
-  const items = document.querySelectorAll('.gallery li');
+  const items = document.querySelectorAll('.gallery li')
   items.forEach((item, index) => {
-    item.classList.remove('show');
-    item.style.setProperty('animation-delay', (index *.06) +'s');
+    item.classList.remove('show')
+    item.style.setProperty('animation-delay', index * 0.06 + 's')
     setTimeout(() => {
-      item.classList.add('show');
-    }, 250);
+      item.classList.add('show')
+    }, 250)
   })
 }
 
 const uniqueTags = computed(() => {
-  let uData = [];
-  data.value.fields.items.forEach(item => {
-    if(item.fields.tags) {
-      uData = uData.concat(item.fields.tags);
+  let uData = []
+  data.value.fields.items.forEach((item) => {
+    if (item.fields.tags) {
+      uData = uData.concat(item.fields.tags)
     }
   })
-  return [...new Set(uData)];
+  return [...new Set(uData)]
 })
 
 const filteredData = computed(() => {
- let fData = data.value.fields.items;
- if(filterKey.value.length) {
-    fData = fData.filter(item => {
-    if(item.fields.tags) {
-      return filterKey.value.every(tag => item.fields.tags.includes(tag))
-    }
-    return false;
-   })
+  let fData = data.value.fields.items
+  if (filterKey.value.length) {
+    fData = fData.filter((item) => {
+      if (item.fields.tags) {
+        return filterKey.value.every((tag) => item.fields.tags.includes(tag))
+      }
+      return false
+    })
   }
- return fData;
+  return fData
 })
 
 const filterGrid = (tag) => {
-  if(filterKey.value.includes(tag)) {
-    const index = filterKey.value.indexOf(tag);
-    filterKey.value.splice(index, 1);
-  }
-  else {
-    filterKey.value.push(tag);
+  if (filterKey.value.includes(tag)) {
+    const index = filterKey.value.indexOf(tag)
+    filterKey.value.splice(index, 1)
+  } else {
+    filterKey.value.push(tag)
   }
 }
 
 const getClass = (tag) => {
-  const classes = ['filterBtn'];
-  if(filterKey.value.includes(tag)) {
-   classes.push('active');
+  const classes = ['filterBtn']
+  if (filterKey.value.includes(tag)) {
+    classes.push('active')
   }
-  return classes;
+  return classes
 }
 
 onMounted(() => {
-  fetchData();
-  triggerAnimation();
-});
+  fetchData()
+  triggerAnimation()
+})
 
 onUpdated(() => {
-  triggerAnimation();
-});
-
-
+  triggerAnimation()
+})
 </script>
 <template>
-<div v-if="error">Oops! Error encountered: Unable to load data.</div>
+  <div v-if="error">Oops! Error encountered: Unable to load data.</div>
   <div v-else-if="data">
-    <button v-show="false" v-for="(tag, index) in uniqueTags" :key="index" @click="filterGrid(tag)" :class="getClass(tag)" >{{tag}}</button>
+    <button
+      v-show="false"
+      v-for="(tag, index) in uniqueTags"
+      :key="index"
+      @click="filterGrid(tag)"
+      :class="getClass(tag)"
+    >
+      {{ tag }}
+    </button>
     <ul class="gallery">
-      <PhotoGalleryItem 
+      <PhotoGalleryItem
         v-for="(item, index) in filteredData"
         :item="item"
         :index="index"
@@ -118,7 +121,7 @@ onUpdated(() => {
 
 .gallery.show {
   opacity: 1;
-   animation-name: fadeIn;
+  animation-name: fadeIn;
   animation-duration: 2s;
   animation-delay: 0s;
   animation-fill-mode: backwards;
@@ -126,7 +129,7 @@ onUpdated(() => {
 
 .filterBtn {
   background: #efefef;
-  font-size: .7em;
+  font-size: 0.7em;
   padding: 6px 12px;
   border: 0;
   margin: 20px 5px 20px 0;
@@ -140,12 +143,11 @@ onUpdated(() => {
 }
 
 .filterByTitle {
-  font-size: .8em;
+  font-size: 0.8em;
   display: inline;
   font-weight: bold;
   text-transform: uppercase;
 }
-
 
 @media screen and (min-width: 40em) {
   .gallery {
@@ -158,5 +160,4 @@ onUpdated(() => {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
-
 </style>

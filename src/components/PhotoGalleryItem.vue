@@ -1,41 +1,44 @@
-<script setup lang="ts">
-import { marked } from 'marked';
+<script setup>
+import { marked } from 'marked'
 
 defineProps({
   item: Object,
-  index: Number
+  index: Number,
 })
 
 const mouseOver = (event) => {
-  event.currentTarget.classList.add('active');
+  event.currentTarget.classList.add('active')
 }
 
 const mouseOut = (event) => {
-  event.currentTarget.classList.remove('active');
+  event.currentTarget.classList.remove('active')
 }
 
 const processMarkdown = (text) => {
-  return marked(text);
+  return marked(text)
 }
 </script>
 
 <template>
   <li :key="index" @mouseover="mouseOver" @mouseout="mouseOut" class="gallery-item">
     <div class="gallery-item-top">
-      <div class="gallery-image-bg" 
-        :style="{'--bkgImage': 'url(' + item.fields.photo.fields.file.url + ')'}">
-      </div>
-      <img :src="item.fields.photo.fields.file.url" :alt="item.fields.photo.fields.description" class="gallery-item-photo" />
+      <div
+        class="gallery-image-bg"
+        :style="{ '--bkgImage': 'url(' + item.fields.photo.fields.file.url + ')' }"
+      ></div>
+      <img
+        :src="item.fields.photo.fields.file.url"
+        :alt="item.fields.photo.fields.description"
+        class="gallery-item-photo"
+      />
     </div>
-      <div class="gallery-item-bottom">
+    <div class="gallery-item-bottom">
       <h3 v-if="item.fields.client" v-html="item.fields.client"></h3>
-      <h2>{{item.fields.title}}</h2>
-      <p v-if="item.fields.description" 
-        v-html="processMarkdown(item.fields.description)">
-      </p>
+      <h2>{{ item.fields.title }}</h2>
+      <p v-if="item.fields.description" v-html="processMarkdown(item.fields.description)"></p>
       <ul class="tags-list" v-if="item.fields.tags">
         <li v-for="(tag, index) in item.fields.tags" :key="index">
-          {{tag}}
+          {{ tag }}
         </li>
       </ul>
     </div>
@@ -53,7 +56,7 @@ const processMarkdown = (text) => {
 
 .gallery-item.show {
   opacity: 1;
-   animation-name: fadeIn;
+  animation-name: fadeIn;
   animation-duration: 1s;
   animation-delay: 0s;
   animation-fill-mode: backwards;
@@ -69,7 +72,7 @@ const processMarkdown = (text) => {
   background: var(--bkgImage);
   background-size: cover;
   background-position: center;
-  transition: transform .8s ease-in-out;
+  transition: transform 0.8s ease-in-out;
   position: absolute;
   width: 101%;
   height: 101%;
@@ -84,9 +87,9 @@ const processMarkdown = (text) => {
   z-index: 2;
   bottom: 0;
   transform: translateY(120%);
-  animation: fadeOut .3s linear  1s;
+  animation: fadeOut 0.3s linear 1s;
   animation-fill-mode: both;
-  transition: transform .75s cubic-bezier(0.83, 0, 0.17, 1);
+  transition: transform 0.75s cubic-bezier(0.83, 0, 0.17, 1);
 }
 
 .gallery-item-photo {
@@ -112,16 +115,16 @@ const processMarkdown = (text) => {
 }
 
 p {
-  font-size: .85em;
+  font-size: 0.85em;
 }
 
 h3 {
   text-transform: uppercase;
-  font-size: .8em;
+  font-size: 0.8em;
   font-weight: bold;
-  letter-spacing: .2px;
+  letter-spacing: 0.2px;
   color: #666;
-  }
+}
 
 li.active .gallery-item-bottom {
   transform: translateY(0);

@@ -1,68 +1,70 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted, defineProps } from 'vue'
 import { onBeforeRouteLeave } from 'vue-router'
-import PhotoSlideshowItem from '../components/PhotoSlideshowItem.vue';
+import PhotoSlideshowItem from '../components/PhotoSlideshowItem.vue'
 
 defineProps({
-  data: Object
+  data: Object,
 })
 
-const activePhoto = ref(null);
-const photos = ref(null);
-const totalPhotos = ref(null);
-let slideshowInt;
+const activePhoto = ref(null)
+const photos = ref(null)
+const totalPhotos = ref(null)
+let slideshowInt
 
 const startSlideshow = () => {
-  photos.value = document.querySelectorAll('.slideshowItem');
-  totalPhotos.value = photos.value.length;
-  
-  if(!activePhoto.value) {
-    setPhoto(0);
-  }
-  else {
-    nextPhoto();
+  photos.value = document.querySelectorAll('.slideshowItem')
+  totalPhotos.value = photos.value.length
+
+  if (!activePhoto.value) {
+    setPhoto(0)
+  } else {
+    nextPhoto()
   }
 
   slideshowInt = setInterval(() => {
-    nextPhoto();
-  }, 5000);
+    nextPhoto()
+  }, 5000)
 }
 
 const stopSlideShow = () => {
-  clearInterval(slideshowInt);
+  clearInterval(slideshowInt)
 }
 
 const nextPhoto = () => {
-  if(activePhoto.value === (totalPhotos.value - 1)) {
-    setPhoto(0);
-  }
-  else {
-    setPhoto(activePhoto.value + 1);
+  if (activePhoto.value === totalPhotos.value - 1) {
+    setPhoto(0)
+  } else {
+    setPhoto(activePhoto.value + 1)
   }
 }
 
 const setPhoto = (id) => {
-  activePhoto.value = id;
+  activePhoto.value = id
 }
 
 const checkImage = (id) => {
-  return activePhoto.value === id;
+  return activePhoto.value === id
 }
 
 onMounted(() => {
-  startSlideshow();
+  startSlideshow()
 })
 
 onBeforeRouteLeave(() => {
-  stopSlideShow();
+  stopSlideShow()
 })
-
 </script>
 
 <template>
-<TransitionGroup name="slide-fade" tag="ul">
-    <PhotoSlideshowItem v-for="(image, index) in data" :key="image" :imageSrc="image.fields.file.url" v-show="checkImage(index)" />
-    </TransitionGroup>
+  <TransitionGroup name="slide-fade" tag="ul">
+    <PhotoSlideshowItem
+      v-for="(image, index) in data"
+      :key="image"
+      :imageSrc="image.fields.file.url"
+      v-show="checkImage(index)"
+    />
+  </TransitionGroup>
 </template>
 
 <style scoped>
@@ -79,23 +81,23 @@ ul {
   list-style: none;
 }
 
-.slide-fade-leave-active, .slide-fade-enter-active {
-  transition: opacity .5s;;
+.slide-fade-leave-active,
+.slide-fade-enter-active {
+  transition: opacity 0.5s;
 }
 
 .slide-fade-enter-from {
-opacity: 0;
+  opacity: 0;
 }
 
 .slide-fade-leave-from {
-opacity: 1;
+  opacity: 1;
 }
 
 .slide-fade-enter-to {
-opacity: 1;
+  opacity: 1;
 }
 .slide-fade-leave-to {
-opacity: 0;
+  opacity: 0;
 }
-
 </style>

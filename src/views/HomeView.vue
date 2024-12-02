@@ -1,15 +1,15 @@
-<script setup lang="ts">
-import { inject } from 'vue';
+<script setup>
+import { inject } from 'vue'
 import router from '../router'
-import PhotoSlideshow from '../components/PhotoSlideshow.vue';
-import { getEntry } from '../composables/getEntry.js';
-const { data , error } = getEntry('48eVyUhkv74oHnUGladtsm');
-const { data: galleryAllData } = inject('gallery');
+import PhotoSlideshow from '../components/PhotoSlideshow.vue'
+import { getEntry } from '../composables/getEntry.js'
+const { data, error } = getEntry('48eVyUhkv74oHnUGladtsm')
+const { data: galleryAllData } = inject('gallery')
 
-import imgUrl from '../assets/white-logo.png';
+import imgUrl from '../assets/white-logo.png'
 
 const goToWork = () => {
-  router.push({ path: '/work/' + galleryAllData.value[0].fields.slug }) 
+  router.push({ path: '/work/' + galleryAllData.value[0].fields.slug })
 }
 </script>
 
@@ -19,9 +19,7 @@ const goToWork = () => {
     <div v-else-if="data">
       <div class="content absolute-center">
         <img :src="imgUrl" alt="Whitney Alexandra" class="logo" />
-        <button class="button large outline hollow" @click="goToWork">
-        View Work
-        </button>
+        <button class="button large outline hollow" @click="goToWork">View Work</button>
       </div>
       <div class="overlay"></div>
       <PhotoSlideshow :data="data.fields.photos" @click="goToWork" />
@@ -51,6 +49,6 @@ const goToWork = () => {
   position: absolute;
   z-index: 4;
   background: #000;
-  opacity: .3;
+  opacity: 0.3;
 }
 </style>

@@ -1,11 +1,11 @@
-<script setup lang="ts">
-import { inject } from 'vue';
-import { RouterLink } from 'vue-router';
-const { data: galleryAllData } = inject('gallery');
+<script setup>
+import { inject } from 'vue'
+import { RouterLink } from 'vue-router'
+const { data: galleryAllData } = inject('gallery')
 import { closeNav } from '../composables/navControls.js'
 
-import IconClose from '../components/icons/IconClose.vue';
-import logoImage from '../assets/logo.jpg';
+import IconClose from '../components/icons/IconClose.vue'
+import logoImage from '../assets/logo.jpg'
 </script>
 
 <template>
@@ -17,10 +17,12 @@ import logoImage from '../assets/logo.jpg';
       <img :src="logoImage" alt="Whitney Alexandra" class="logo" />
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink 
-          v-for="(gallery, index) in galleryAllData" 
-          :to="'/work/' + gallery.fields.slug" :key="index">
-          {{gallery.fields.navTitle}}
+        <RouterLink
+          v-for="(gallery, index) in galleryAllData"
+          :to="'/work/' + gallery.fields.slug"
+          :key="index"
+        >
+          {{ gallery.fields.navTitle }}
         </RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>

@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script setup>
 defineProps({
-  imageSrc: String
+  imageSrc: String,
 })
 </script>
 
 <template>
-<li class="slideshowItem" :style="{'--bkgImage': 'url(' + imageSrc + ')'}"></li>
+  <li class="slideshowItem" :style="{ '--bkgImage': 'url(' + imageSrc + ')' }"></li>
 </template>
 
 <style scoped>
@@ -17,5 +17,4 @@ defineProps({
   background-size: cover;
   background-position: center;
 }
-
 </style>

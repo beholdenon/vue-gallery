@@ -13,36 +13,35 @@ const router = createRouter({
       name: 'home',
       components: {
         default: HomeView,
-        LeftSidebar: NavView
+        LeftSidebar: NavView,
       },
-      meta: { title: 'Whitney Alexandra' }
+      meta: { title: 'Whitney Alexandra' },
     },
     {
       path: '/about',
       name: 'about',
       components: {
         default: AboutView,
-        LeftSidebar: NavView
+        LeftSidebar: NavView,
       },
-      meta: { title: 'About - Whitney Alexandra' }
+      meta: { title: 'About - Whitney Alexandra' },
     },
     {
       path: '/work/:slug',
       name: 'Work Gallery',
       components: {
         default: WorkView,
-        LeftSidebar: NavView
+        LeftSidebar: NavView,
       },
-      meta: { title: 'Work - Whitney Alexandra' }
-
+      meta: { title: 'Work - Whitney Alexandra' },
     },
   ],
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to);
-  document.title = to.meta.title;
-  next();
-});
+  console.log(to)
+  document.title = to.meta.title
+  next()
+})
 
 export default router

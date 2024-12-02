@@ -39,7 +39,6 @@ main {
   }
 }
 
-
 .nav-hamburger {
   width: 30px;
   height: 30px;
@@ -56,7 +55,6 @@ main {
     fill: #fff;
   }
 }
-
 
 .left-sidebar {
   width: 100%;
@@ -108,7 +106,8 @@ main {
 }
 
 @media screen and (min-width: 40em) {
-  .nav-hamburger, .nav-close-btn {
+  .nav-hamburger,
+  .nav-close-btn {
     display: none;
   }
 
@@ -119,7 +118,7 @@ main {
     height: 100vh;
 
     .inner {
-      position: fixed!important;
+      position: fixed !important;
       top: 0;
       left: 0;
       height: 100%;
@@ -137,14 +136,13 @@ main {
   width: 100%;
 }
 
-
 .button {
   text-decoration: none;
   text-transform: uppercase;
   font-size: 1em;
   font-weight: bold;
   cursor: pointer;
-  letter-spacing: .3px;
+  letter-spacing: 0.3px;
 
   &.large {
     padding: 12px 30px;
@@ -165,7 +163,6 @@ main {
       color: #000;
     }
   }
-
 }
 
 p {
@@ -214,11 +211,19 @@ img {
 }
 
 @keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeOut {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
