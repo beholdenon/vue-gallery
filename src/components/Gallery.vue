@@ -1,0 +1,179 @@
+<script setup lang="ts">
+import { ref, computed, inject, defineProps, watch, onMounted, onUpdated } from 'vue'
+import { useRoute, useRouter, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import GalleryItem from '../components/GalleryItem.vue';
+
+const route = useRoute();
+const data = ref(null);
+const error = ref(null);
+
+const { data: galleryAllData, data: galleryData, error: galleryError } = inject('gallery');
+
+const getGalleryData = () => {
+  let activeGallery;
+  galleryAllData.value.forEach(gallery => {
+    if(gallery.fields.slug === route.params.slug) {
+      activeGallery = gallery;
+    }
+  })
+  return activeGallery;
+}
+
+//data.value = getEntry(getGalleryId());
+let filterKey = ref([]);
+
+function fetchData() {
+  let gallery = getGalleryData();
+  data.value = gallery;  
+}
+
+watch(
+  () => route.params.slug,
+  async newId => {
+    fetchData();
+  }
+)
+
+
+const triggerAnimation = () => {
+  var items = document.querySelectorAll('.gallery li');
+  items.forEach((item, index) => {
+    item.classList.remove('show');
+    item.style.setProperty('animation-delay', (index *.06) +'s');
+    setTimeout(() => {
+      item.classList.add('show');
+    }, 250);
+  })
+}
+
+
+const uniqueTags = computed(() => {
+  let uData = [];
+  data.value.fields.items.forEach(item => {
+    if(item.fields.tags) {
+      uData = uData.concat(item.fields.tags);
+    }
+  })
+  return [...new Set(uData)];
+})
+
+const filteredData = computed(() => {
+ let fData = data.value.fields.items;
+ if(filterKey.value.length) {
+    fData = fData.filter(item => {
+    if(item.fields.tags) {
+      return filterKey.value.every(tag => item.fields.tags.includes(tag))
+    }
+    return false;
+   })
+  }
+ return fData;
+})
+
+const filterGrid = (tag) => {
+  if(filterKey.value.includes(tag)) {
+    let index = filterKey.value.indexOf(tag);
+    filterKey.value.splice(index, 1);
+  }
+  else {
+    filterKey.value.push(tag);
+  }
+}
+
+const getClass = (tag) => {
+  let classes = ['filterBtn'];
+  if(filterKey.value.includes(tag)) {
+   classes.push('active');
+  }
+  return classes;
+}
+
+onMounted(() => {
+  triggerAnimation();
+});
+
+onUpdated(() => {
+  triggerAnimation();
+});
+
+onBeforeRouteUpdate((to, from) => {
+
+});
+
+onBeforeRouteLeave((to, from) => {
+});
+fetchData();
+
+
+</script>
+<template>
+<div v-if="error">Oops! Error encountered: Unable to load data.</div>
+  <div v-else-if="data">
+    <button v-show="false" v-for="(tag, index) in uniqueTags" :key="index" @click="filterGrid(tag)" :class="getClass(tag)" >{{tag}}</button>
+    <ul class="gallery">
+      <GalleryItem 
+        v-for="(item, index) in data.fields.items"
+        :item="item"
+        :index="index"
+        :key="item.sys.id"
+      />
+    </ul>
+  </div>
+  <div v-else>Loading...</div>
+</template>
+
+<style scoped>
+.gallery {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: var(--column-gap);
+  row-gap: var(--row-gap);
+}
+
+.gallery.show {
+  opacity: 1;
+   animation-name: fadeIn;
+  animation-duration: 2s;
+  animation-delay: 0s;
+  animation-fill-mode: backwards;
+}
+
+.filterBtn {
+  background: #efefef;
+  font-size: .7em;
+  padding: 6px 12px;
+  border: 0;
+  margin: 20px 5px 20px 0;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.filterBtn.active {
+  background: #000;
+  color: #fff;
+}
+
+.filterByTitle {
+  font-size: .8em;
+  display: inline;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+
+@media screen and (min-width: 40em) {
+  .gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (min-width: 64em) {
+  .gallery {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+</style>
