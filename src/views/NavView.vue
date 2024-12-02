@@ -3,8 +3,6 @@ import { inject } from 'vue'
 import { RouterLink } from 'vue-router'
 const { data: galleryAllData } = inject('gallery')
 import { closeNav } from '../composables/navControls.js'
-import LoaderView from '../components/LoaderView.vue'
-
 import IconClose from '../components/icons/IconClose.vue'
 import logoImage from '../assets/logo.jpg'
 </script>
