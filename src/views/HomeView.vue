@@ -3,6 +3,7 @@ import { inject } from 'vue'
 import router from '../router'
 import PhotoSlideshow from '../components/PhotoSlideshow.vue'
 import { getEntry } from '../composables/getEntry.js'
+import LoaderView from '../components/LoaderView.vue'
 const { data, error } = getEntry('48eVyUhkv74oHnUGladtsm')
 const { data: galleryAllData } = inject('gallery')
 
@@ -24,7 +25,7 @@ const goToWork = () => {
       <div class="overlay"></div>
       <PhotoSlideshow :data="data.fields.photos" @click="goToWork" />
     </div>
-    <div v-else>Loading...</div>
+    <div v-else><LoaderView /></div>
   </main>
 </template>
 

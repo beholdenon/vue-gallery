@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import WorkView from '../views/WorkView.vue'
 import AboutView from '../views/AboutView.vue'
 import NavView from '../views/NavView.vue'
+import { setMetaTags } from '../composables/setMetaTags.js'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,7 +16,7 @@ const router = createRouter({
         default: HomeView,
         LeftSidebar: NavView,
       },
-      meta: { title: 'Whitney Alexandra' },
+      meta: { title: 'Whitney Alexandra', description: 'Whitney Alexandra photography stylist.' },
     },
     {
       path: '/about',
@@ -24,7 +25,7 @@ const router = createRouter({
         default: AboutView,
         LeftSidebar: NavView,
       },
-      meta: { title: 'About - Whitney Alexandra' },
+      meta: { title: 'About - Whitney Alexandra', description: 'About Whitney Alexandra.' },
     },
     {
       path: '/work/:slug',
@@ -33,14 +34,16 @@ const router = createRouter({
         default: WorkView,
         LeftSidebar: NavView,
       },
-      meta: { title: 'Work - Whitney Alexandra' },
+      meta: { title: 'Work - Whitney Alexandra', description: 'The work of Whitney Alexandra' },
     },
   ],
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to)
-  document.title = to.meta.title
+  setMetaTags({
+    title: to.meta.title,
+    description: to.meta.description,
+  })
   next()
 })
 

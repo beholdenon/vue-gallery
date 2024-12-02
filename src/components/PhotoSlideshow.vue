@@ -72,7 +72,6 @@ ul {
   width: 100%;
   height: 100%;
   position: fixed;
-  background: url('./carrots.jpg');
   background-size: cover;
   background-position: center;
   z-index: 2;

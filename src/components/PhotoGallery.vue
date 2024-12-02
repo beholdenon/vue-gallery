@@ -2,6 +2,8 @@
 import { ref, computed, inject, watch, onMounted, onUpdated } from 'vue'
 import { useRoute } from 'vue-router'
 import PhotoGalleryItem from '../components/PhotoGalleryItem.vue'
+import { setMetaTags } from '../composables/setMetaTags.js'
+import LoaderView from '../components/LoaderView.vue'
 
 const route = useRoute()
 const data = ref(null)
@@ -21,7 +23,10 @@ function fetchData() {
 watch(() => route.params.slug, fetchData)
 
 watch(data, () => {
-  document.title = data.value.fields.navTitle + ' - Whitney Alexandra'
+  setMetaTags({
+    title: data.value.fields.navTitle + ' - Whitney Alexandra',
+    description: 'Whitney Alexandra  prop stylist. ' + data.value.fields.navTitle,
+  })
 })
 
 const triggerAnimation = () => {
@@ -105,7 +110,7 @@ onUpdated(() => {
       />
     </ul>
   </div>
-  <div v-else>Loading...</div>
+  <div v-else><LoaderView /></div>
 </template>
 
 <style scoped>

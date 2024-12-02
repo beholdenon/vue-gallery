@@ -1,6 +1,8 @@
 <script setup>
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer'
 import { getEntry } from '../composables/getEntry.js'
+import LoaderView from '../components/LoaderView.vue'
+
 const { data, error } = getEntry('1Fl4vdgAQLVaMBqyjQAuv7')
 
 const renderHtml = (content) => {
@@ -35,7 +37,7 @@ const renderHtml = (content) => {
       <div v-else-if="data">
         <div class="rte" v-html="renderHtml(data.fields.content)"></div>
       </div>
-      <div v-else>Loading...</div>
+      <div v-else><LoaderView /></div>
     </div>
   </main>
 </template>

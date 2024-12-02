@@ -92,6 +92,10 @@ main {
 @media screen and (max-width: 39.9375em) {
   .left-sidebar {
     transform: translateX(-100vw);
+
+    &.hide {
+      display: block;
+    }
   }
 
   body.nav-close .left-sidebar {
